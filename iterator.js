@@ -68,10 +68,8 @@ filtrator.prototype = Object.create(iterator.prototype);
 
 //test
 function* takeIter(n, iterable) {
-  let count = 0;
-  while (count < n) { //check for done?
+  for (let i = 0; i < n; i++) { //check for done?
     yield iterable.next().value;
-    count++;
   }
 }
 takeIter.prototype = Object.create(iterator.prototype);
