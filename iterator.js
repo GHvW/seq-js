@@ -20,6 +20,12 @@ iterator.prototype.map = function(fn) {
 iterator.prototype.filter = function(predicate) {
   return filtrator(predicate, this);
 }
+
+//recursive faster?
+iterator.prototype.take = function(n) {
+  return takeIter(n, this);
+}
+
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
 iterator.prototype.collect = function() {
@@ -34,12 +40,14 @@ iterator.prototype.count = function() {
   return result
 }
 
-//test
+
 iterator.prototype.forEach = function(fn) {
   for (let val of this) {
     fn(val);
   }
 }
+
+
 
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
@@ -57,3 +65,13 @@ function* filtrator(predicate, iterable) {
   }
 }
 filtrator.prototype = Object.create(iterator.prototype);
+
+//test
+function* takeIter(n, iterable) {
+  let count = 0;
+  while (count < n) { //check for done?
+    yield iterable.next().value;
+    count++;
+  }
+}
+takeIter.prototype = Object.create(iterator.prototype);
