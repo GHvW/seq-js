@@ -1,0 +1,19 @@
+{
+  "name": "seq-js",
+  "version": "0.0.1",
+  "description": "Attempt to use generators to create lazy iterators. Similar to the Java 8 Streams API, C# Enumerable, Rust iterator, F# and Kotlin Sequences, etc.",
+  "main": "sequence.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GHvW/seq-js.git"
+  },
+  "author": "Garrett van Wageningen <ghvanw283@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GHvW/seq-js/issues"
+  },
+  "homepage": "https://github.com/GHvW/seq-js#readme"
+}
