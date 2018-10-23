@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/GHvW/seq-js/issues"
   },
-  "homepage": "https://github.com/GHvW/seq-js#readme"
+  "homepage": "https://github.com/GHvW/seq-js#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }
