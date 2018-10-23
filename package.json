@@ -4,7 +4,8 @@
   "description": "Attempt to use generators to create lazy iterators. Similar to the Java 8 Streams API, C# Enumerable, Rust iterator, F# and Kotlin Sequences, etc.",
   "main": "src/sequence.js",
   "scripts": {
-    "test": "jest test/sequence.test.js"
+    "test": "jest test/sequence.test.js",
+    "watch-test": "npm test --watch"
   },
   "repository": {
     "type": "git",
