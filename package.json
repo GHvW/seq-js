@@ -2,9 +2,9 @@
   "name": "seq-js",
   "version": "0.0.1",
   "description": "Attempt to use generators to create lazy iterators. Similar to the Java 8 Streams API, C# Enumerable, Rust iterator, F# and Kotlin Sequences, etc.",
-  "main": "sequence.js",
+  "main": "src/sequence.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest test/sequence.test.js"
   },
   "repository": {
     "type": "git",
