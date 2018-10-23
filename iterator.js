@@ -1,38 +1,38 @@
 // Don't use this! extending base types is bad practice!
 // Array.prototype.iter = function() {
-//   return iterator(this);
+//   return sequence(this);
 // }
 
 function Seq() {};
 
 Seq.of = function(args) {
-  return iterator(args);
+  return sequence(args);
 }
 
-function* iterator(iterable) {
+function* sequence(iterable) {
   yield* iterable;
 }
 
-iterator.prototype.map = function(fn) {
+sequence.prototype.map = function(fn) {
   return mapIter(fn, this);
 }
 
-iterator.prototype.filter = function(predicate) {
+sequence.prototype.filter = function(predicate) {
   return filtrator(predicate, this);
 }
 
 //recursive faster?
-iterator.prototype.take = function(n) {
+sequence.prototype.take = function(n) {
   return takeIter(n, this);
 }
 
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
-iterator.prototype.collect = function() {
+sequence.prototype.collect = function() {
   return [...this];
 }
 
-iterator.prototype.count = function() {
+sequence.prototype.count = function() {
   let result = 0;
   while (!this.next().done) {
     result++
@@ -41,7 +41,7 @@ iterator.prototype.count = function() {
 }
 
 
-iterator.prototype.forEach = function(fn) {
+sequence.prototype.forEach = function(fn) {
   for (let val of this) {
     fn(val);
   }
@@ -55,7 +55,7 @@ function* mapIter(fn, iterable) {
       yield fn(val);
   }
 }
-mapIter.prototype = Object.create(iterator.prototype);
+mapIter.prototype = Object.create(sequence.prototype);
 
 function* filtrator(predicate, iterable) {
   for (let val of iterable) {
@@ -64,7 +64,7 @@ function* filtrator(predicate, iterable) {
       }
   }
 }
-filtrator.prototype = Object.create(iterator.prototype);
+filtrator.prototype = Object.create(sequence.prototype);
 
 //test
 function* takeIter(n, iterable) {
@@ -72,4 +72,4 @@ function* takeIter(n, iterable) {
     yield iterable.next().value;
   }
 }
-takeIter.prototype = Object.create(iterator.prototype);
+takeIter.prototype = Object.create(sequence.prototype);
