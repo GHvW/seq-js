@@ -17,6 +17,14 @@ sequence.prototype.map = function(fn) {
   return mapIter(fn, this);
 }
 
+sequence.prototype.flatten = function() {
+  return flattenIter(this);
+}
+
+sequence.prototype.flatMap = function(fn)  {
+  return flatMapIter(fn, this);
+}
+
 sequence.prototype.filter = function(predicate) {
   return filtrator(predicate, this);
 }
@@ -56,6 +64,24 @@ function* mapIter(fn, iterable) {
   }
 }
 mapIter.prototype = Object.create(sequence.prototype);
+
+function* flattenIter(iterableOfIterables) {
+  for (let iter of iterableOfIterables) {
+    for (let val of iter) {
+      yield val;
+    }
+  }
+}
+flattenIter.prototype = Object.create(sequence.prototype);
+
+function* flatMapIter(fn, iterable) {
+  for (let val of iterable) {
+    for (let innerVal of fn(val)) {
+      yield innerVal;
+    }
+  }
+}
+flatMapIter.prototype = Object.create(sequence.prototype);
 
 function* filtrator(predicate, iterable) {
   for (let val of iterable) {
