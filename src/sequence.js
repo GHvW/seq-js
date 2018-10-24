@@ -34,6 +34,14 @@ sequence.prototype.take = function(n) {
   return takeIter(n, this);
 }
 
+sequence.prototype.skip = function(n) {
+  return skipIter(n, this);
+}
+
+sequence.prototype.skipWhile = function(predicate) {
+  return skipWhileIter(predicate, this);
+}
+
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
 sequence.prototype.collect = function() {
@@ -106,5 +114,27 @@ function* takeIter(n, iterable) {
   }
 }
 takeIter.prototype = Object.create(sequence.prototype);
+
+function* skipIter(n, iterable) {
+  for (let i = 0; i < n; i++) {
+    iterable.next();
+  }
+  for (let val of iterable) {
+    yield val;
+  }
+}
+skipIter.prototype = Object.create(sequence.prototype);
+
+function* skipWhileIter(predicate, iterable) {
+  let next = iterable.next().value;
+  while (predicate(next)) {
+    next = iterable.next().value;
+  };
+  yield next;
+
+  for (let val of iterable) {
+    yield val;
+  }
+}
 
 module.exports = Seq;

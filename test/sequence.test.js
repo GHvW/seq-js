@@ -95,3 +95,19 @@ test("test reduce: apply the function to each element, producing an accumulated 
 
   expect(sum).toBe(21);
 });
+
+test("test skip: skip n elements of the sequence, consuming them", () => {
+  let seq = Seq.of(bigArr).skip(4);
+
+  expect(seq.next().value).toBe(5);
+  expect(seq.next().value).toBe(6);
+  expect(seq.next().value).toBe(undefined);
+});
+
+test("test skipWhile: skip until predicate satisfied, consuming skipped values", () => {
+  let seq = Seq.of(bigArr).skipWhile(x => x < 5);
+
+  expect(seq.next().value).toBe(5);
+  expect(seq.next().value).toBe(6);
+  expect(seq.next().value).toBe(undefined);
+})
