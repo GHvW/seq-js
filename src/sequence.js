@@ -136,5 +136,6 @@ function* skipWhileIter(predicate, iterable) {
     yield val;
   }
 }
+skipWhileIter.prototype = Object.create(sequence.prototype)
 
 module.exports = Seq;
