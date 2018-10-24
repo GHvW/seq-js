@@ -5,7 +5,7 @@
   "main": "src/sequence.js",
   "scripts": {
     "test": "jest test/sequence.test.js",
-    "watch-test": "npm test --watch"
+    "watch-test": "npm test -- --watch"
   },
   "repository": {
     "type": "git",
