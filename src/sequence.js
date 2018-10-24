@@ -55,7 +55,14 @@ sequence.prototype.forEach = function(fn) {
   }
 }
 
-
+//sometimes called fold
+sequence.prototype.reduce = function(fn, val) {
+  let next = this.next();
+  if (next.done) {
+    return val;
+  }
+  return this.reduce(fn, fn(val, next.value));
+}
 
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
