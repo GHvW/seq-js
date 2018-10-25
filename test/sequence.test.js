@@ -117,4 +117,34 @@ test("test skipWhile: skip until predicate satisfied, consuming skipped values",
   expect(seq.next().value).toBe(5);
   expect(seq.next().value).toBe(6);
   expect(seq.next().value).toBe(undefined);
+});
+
+test("test zip: takes an iterator returns a new iterator that iterates over both at the same time", () => {
+  let one = [1, 2, 3];
+  let two = [4, 5, 6];
+  let seq = Seq.of(one).zip(Seq.of(two));
+
+  expect(seq.next().value).toEqual({ 0: 1, 1: 4});
+  expect(seq.next().value).toEqual({ 0: 2, 1: 5 });
+  expect(seq.next().value).toEqual({ 0: 3, 1: 6 });
+  expect(seq.next().value).toBe(undefined);
 })
+
+test("test prototype: check prototype chain of each method", () => {
+  let seq =
+    Seq.of(bigArr)
+      .map(x => x)
+      .filter(x => x !== 100)
+      .takeWhile(x => x < 100)
+      .skipWhile(x => x < 0)
+      .skip(0)
+      .take(6)
+      .map(x => [[x]])
+      .flatten()
+      .flatMap(x => x.concat(x))
+      .collect()
+
+  let zipped = Seq.of(bigArr).zip(Seq.of(arr)).filter(x => (x[0] && x[1]) === 3);
+
+  expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
+});

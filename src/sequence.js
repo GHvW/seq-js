@@ -46,6 +46,10 @@ sequence.prototype.skipWhile = function(predicate) {
   return skipWhileIter(predicate, this);
 }
 
+sequence.prototype.zip = function(seq) {
+  return ziperator(seq, this);
+}
+
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
 sequence.prototype.collect = function() {
@@ -126,6 +130,7 @@ function* takeWhileIter(predicate, iterable) {
     next = iterable.next();
   }
 }
+takeWhileIter.prototype = Object.create(sequence.prototype);
 
 function* skipIter(n, iterable) {
   for (let i = 0; i < n; i++) {
@@ -149,5 +154,17 @@ function* skipWhileIter(predicate, iterable) {
   }
 }
 skipWhileIter.prototype = Object.create(sequence.prototype)
+
+//will require array style access x[0], x[1] to access values
+function* ziperator(sequence, iterable) {
+  let first = iterable.next();
+  let second = sequence.next();
+  while (!first.done && !second.done) {
+    yield { 0: first.value, 1: second.value };
+    first = iterable.next();
+    second = sequence.next();
+  }
+}
+ziperator.prototype = Object.create(sequence.prototype);
 
 module.exports = Seq;
