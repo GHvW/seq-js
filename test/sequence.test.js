@@ -70,6 +70,13 @@ test("test take: in 1, 2, 3, 4, 5, 6, take the first 3 numbers", () => {
   expect(seq.next().value).toBe(undefined);
 });
 
+test("test takeWhile: take until applied predicate is false", () => {
+    let seq = Seq.of(bigArr).takeWhile(x => x < 2);
+
+    expect(seq.next().value).toBe(1);
+    expect(seq.next().value).toBe(undefined);
+});
+
 test("test forEach: for each value in the sequence add to a total, consuming the sequence", () => {
   let seq = Seq.of(bigArr);
   let total = 10;

@@ -34,6 +34,10 @@ sequence.prototype.take = function(n) {
   return takeIter(n, this);
 }
 
+sequence.prototype.takeWhile = function(predicate) {
+  return takeWhileIter(predicate, this);
+}
+
 sequence.prototype.skip = function(n) {
   return skipIter(n, this);
 }
@@ -114,6 +118,14 @@ function* takeIter(n, iterable) {
   }
 }
 takeIter.prototype = Object.create(sequence.prototype);
+
+function* takeWhileIter(predicate, iterable) {
+  let next = iterable.next();
+  while (predicate(next.value)) {
+    yield next.value;
+    next = iterable.next();
+  }
+}
 
 function* skipIter(n, iterable) {
   for (let i = 0; i < n; i++) {
