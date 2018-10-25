@@ -128,7 +128,16 @@ test("test zip: takes an iterator returns a new iterator that iterates over both
   expect(seq.next().value).toEqual({ 0: 2, 1: 5 });
   expect(seq.next().value).toEqual({ 0: 3, 1: 6 });
   expect(seq.next().value).toBe(undefined);
-})
+});
+
+test("test enumerate: will create an iterator that includes the current iteration count as well as the next value", () => {
+  let seq = Seq.of(arr).enumerate();
+
+  expect(seq.next().value).toEqual({ i: 0, value: 1 });
+  expect(seq.next().value).toEqual({ i: 1, value: 2 });
+  expect(seq.next().value).toEqual({ i: 2, value: 3 });
+  expect(seq.next().value).toBe(undefined);
+});
 
 test("test prototype: check prototype chain of each method", () => {
   let seq =
@@ -142,9 +151,13 @@ test("test prototype: check prototype chain of each method", () => {
       .map(x => [[x]])
       .flatten()
       .flatMap(x => x.concat(x))
-      .collect()
+      .collect();
 
-  let zipped = Seq.of(bigArr).zip(Seq.of(arr)).filter(x => (x[0] && x[1]) === 3);
+  let zipped = Seq.of(bigArr).zip(Seq.of(arr)).filter(x => x[0] === 3 && x[1] === 3);
+
+  let enumerated = Seq.of(arr).enumerate().filter(x => x.i === 0);
 
   expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
+  expect(zipped.next().value).toEqual({ 0: 3, 1: 3 });
+  expect(enumerated.next().value).toEqual({ i: 0, value: 1 });
 });

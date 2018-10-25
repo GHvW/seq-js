@@ -50,6 +50,10 @@ sequence.prototype.zip = function(seq) {
   return ziperator(seq, this);
 }
 
+sequence.prototype.enumerate = function() {
+  return enumerateIter(this);
+}
+
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
 sequence.prototype.collect = function() {
@@ -166,5 +170,14 @@ function* ziperator(sequence, iterable) {
   }
 }
 ziperator.prototype = Object.create(sequence.prototype);
+
+function* enumerateIter(iterable) {
+  let count = 0;
+  for (let val of iterable) {
+    yield { i: count, value: val };
+    count += 1;
+  }
+}
+enumerateIter.prototype = Object.create(sequence.prototype);
 
 module.exports = Seq;
