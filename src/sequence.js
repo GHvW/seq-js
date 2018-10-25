@@ -54,35 +54,6 @@ sequence.prototype.enumerate = function() {
   return enumerateIter(this);
 }
 
-//cant make these lambdas because it doesn't bind this? "this" would be the window?
-//***********Terminal Operations****************************************** */
-sequence.prototype.collect = function() {
-  return [...this];
-}
-
-sequence.prototype.count = function() {
-  let result = 0;
-  while (!this.next().done) {
-    result++
-  }
-  return result
-}
-
-
-sequence.prototype.forEach = function(fn) {
-  for (let val of this) {
-    fn(val);
-  }
-}
-
-//sometimes called fold
-sequence.prototype.reduce = function(fn, val) {
-  let next = this.next();
-  if (next.done) {
-    return val;
-  }
-  return this.reduce(fn, fn(val, next.value));
-}
 
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
@@ -179,5 +150,35 @@ function* enumerateIter(iterable) {
   }
 }
 enumerateIter.prototype = Object.create(sequence.prototype);
+
+
+//cant make these lambdas because it doesn't bind this? "this" would be the window?
+//***********Terminal Operations****************************************** */
+sequence.prototype.collect = function() {
+  return [...this];
+}
+
+sequence.prototype.count = function() {
+  let result = 0;
+  while (!this.next().done) {
+    result++
+  }
+  return result
+}
+
+sequence.prototype.forEach = function(fn) {
+  for (let val of this) {
+    fn(val);
+  }
+}
+
+//sometimes called fold
+sequence.prototype.reduce = function(fn, val) {
+  let next = this.next();
+  if (next.done) {
+    return val;
+  }
+  return this.reduce(fn, fn(val, next.value));
+}
 
 module.exports = Seq;
