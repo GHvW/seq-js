@@ -139,6 +139,80 @@ test("test enumerate: will create an iterator that includes the current iteratio
   expect(seq.next().value).toBe(undefined);
 });
 
+test("test nth: return the nth element from the sequence", () => {
+  let seq = Seq.of(arr).nth(1);
+
+  expect(seq.next().value).toBe(2);
+  expect(seq.next().value).toBe(undefined);
+});
+
+test("test peekable:", () => {
+
+});
+
+test("test partition:", () => {
+
+});
+
+test("test any:", () => {
+
+});
+
+test("test min:", () => {
+
+});
+
+test("test max:", () => {
+
+});
+
+test("test unzip:", () => {
+
+});
+
+test("test minBy:", () => {
+
+});
+
+test("test maxBy:", () => {
+
+});
+
+test("test sum:", () => {
+
+});
+
+test("test product:", () => {
+  
+});
+
+test("test cycle:", () => {
+
+});
+
+test("test all:", () => {
+
+});
+
+test("test find:", () => {
+  
+});
+
+test("test position:", () => {
+
+});
+
+test("test chain:", () => {
+  let arr1 = [0, 2];
+  let arr2 = [4];
+  let seq = Seq.of(arr1).chain(Seq.of(arr2));
+
+  expect(seq.next().value).toBe(0);
+  expect(seq.next().value).toBe(2);
+  expect(seq.next().value).toBe(4);
+  expect(seq.next().value).toBe(undefined);
+});
+
 test("test prototype: check prototype chain of each method", () => {
   let seq =
     Seq.of(bigArr)
@@ -153,11 +227,18 @@ test("test prototype: check prototype chain of each method", () => {
       .flatMap(x => x.concat(x))
       .collect();
 
+  expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
+
   let zipped = Seq.of(bigArr).zip(Seq.of(arr)).filter(x => x[0] === 3 && x[1] === 3);
+  expect(zipped.next().value).toEqual({ 0: 3, 1: 3 });
 
   let enumerated = Seq.of(arr).enumerate().filter(x => x.i === 0);
-
-  expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
-  expect(zipped.next().value).toEqual({ 0: 3, 1: 3 });
   expect(enumerated.next().value).toEqual({ i: 0, value: 1 });
+  
+  let nth = Seq.of(arr).nth(1).map(x => x + 1);
+  expect(nth.next().value).toBe(3);
+
+  let sec = [4, 5, 6];
+  let chain = Seq.of(arr).chain(Seq.of(sec)).nth(5);
+  expect(chain.next().value).toBe(6);
 });

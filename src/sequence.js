@@ -54,6 +54,13 @@ sequence.prototype.enumerate = function() {
   return enumerateIter(this);
 }
 
+sequence.prototype.nth = function(n) {
+  return ntherator(n, this);
+}
+
+sequence.prototype.chain = function(seq) {
+  return chainerator(seq, this);
+}
 
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
@@ -150,6 +157,27 @@ function* enumerateIter(iterable) {
   }
 }
 enumerateIter.prototype = Object.create(sequence.prototype);
+
+function* ntherator(n, iterable) {
+  let count = 0;
+  for (let val of iterable) {
+    if (count === n) {
+      yield val;
+    }
+    count += 1;
+  }
+}
+ntherator.prototype = Object.create(sequence.prototype);
+
+function* chainerator(seq, iterable) {
+  for (let val of iterable) {
+    yield val;
+  }
+  for (let val of seq) {
+    yield val;
+  }
+}
+chainerator.prototype = Object.create(sequence.prototype);
 
 
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
