@@ -154,17 +154,20 @@ test("test partition:", () => {
 
 });
 
-test("test any:", () => {
+test("test any: tests whether any values match the predicate. Short circuits on match leaving the rest unconsumed", () => {
+  let seq = Seq.of(bigArr).any(x => x % 2 === 0);
 
+  expect(seq.next().value).toBe(2);
+  expect(seq.next().value).toBe(3);
 });
 
-test("test min:", () => {
+test("test min: returns the min value of the sequence, consuming the sequence", () => {
   let min = Seq.of(arr).min();
 
   expect(min).toBe(1);
 });
 
-test("test max:", () => {
+test("test max: returns the max value of the sequence, consuming the sequence", () => {
   let max = Seq.of(arr).max();
 
   expect(max).toBe(3);
@@ -229,6 +232,7 @@ test("test prototype: check prototype chain of each method", () => {
       .map(x => [[x]])
       .flatten()
       .flatMap(x => x.concat(x))
+      .any(x => x === 1)
       .collect();
 
   expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);

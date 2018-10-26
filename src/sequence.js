@@ -62,6 +62,10 @@ sequence.prototype.chain = function(seq) {
   return chainerator(seq, this);
 }
 
+sequence.prototype.any = function(predicate) {
+  return anyIter(predicate, this);
+}
+
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
   for (let val of iterable) {
@@ -179,6 +183,17 @@ function* chainerator(seq, iterable) {
 }
 chainerator.prototype = Object.create(sequence.prototype);
 
+function* anyIter(predicate, iterable) {
+  let next = iterable.next();
+  while (!next.done && !predicate(next.value)) {
+    next = iterable.next();
+  }
+  yield next.value;
+  for (let val of iterable) {
+    yield val;
+  } 
+}
+anyIter.prototype = Object.create(sequence.prototype);
 
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
