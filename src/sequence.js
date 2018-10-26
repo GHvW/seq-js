@@ -209,4 +209,29 @@ sequence.prototype.reduce = function(fn, val) {
   return this.reduce(fn, fn(val, next.value));
 }
 
+//look into this one later
+sequence.prototype.min = function() {
+  let next = this.next()
+  let currMin = next.value;
+  while (!next.done) {
+    if (next.value < currMin) {
+      currmin = next.value;
+    }
+    next = this.next();
+  }
+  return currMin;
+}
+
+sequence.prototype.max = function() {
+  let next = this.next();
+  let currMax = next.value;
+  while (!next.done) {
+    if (next.value > currMax) {
+      currMax = next.value;
+    }
+    next = this.next();
+  }
+  return currMax;
+}
+
 module.exports = Seq;

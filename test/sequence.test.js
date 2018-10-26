@@ -159,11 +159,15 @@ test("test any:", () => {
 });
 
 test("test min:", () => {
+  let min = Seq.of(arr).min();
 
+  expect(min).toBe(1);
 });
 
 test("test max:", () => {
+  let max = Seq.of(arr).max();
 
+  expect(max).toBe(3);
 });
 
 test("test unzip:", () => {
