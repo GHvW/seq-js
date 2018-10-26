@@ -249,4 +249,16 @@ sequence.prototype.max = function() {
   return currMax;
 }
 
+sequence.prototype.partition = function(predicate) {
+  let part = { 0: [], 1: [] };
+  for (let val of this) {
+    if (predicate(val)) {
+      part[0].push(val);
+    } else {
+      part[1].push(val);
+    }
+  }
+  return part;
+}
+
 module.exports = Seq;

@@ -150,8 +150,11 @@ test("test peekable:", () => {
 
 });
 
-test("test partition:", () => {
+test("test partition: consumes the sequence creating two lists. one with values that satisfy the predicate and one with values that do not", () => {
+  let part = Seq.of(bigArr).partition(x => x % 2 === 0);
 
+  expect(part[0]).toEqual([2, 4, 6]);
+  expect(part[1]).toEqual([1, 3, 5]);
 });
 
 test("test any: tests whether any values match the predicate. Short circuits on match leaving the rest unconsumed", () => {
