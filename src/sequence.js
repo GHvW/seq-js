@@ -66,6 +66,10 @@ sequence.prototype.any = function(predicate) {
   return anyIter(predicate, this);
 }
 
+sequence.prototype.peekable = function() {
+  return peekableIter(this);
+}
+
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
   for (let val of iterable) {
@@ -183,17 +187,33 @@ function* chainerator(seq, iterable) {
 }
 chainerator.prototype = Object.create(sequence.prototype);
 
-function* anyIter(predicate, iterable) {
-  let next = iterable.next();
-  while (!next.done && !predicate(next.value)) {
-    next = iterable.next();
+// function* anyIter(predicate, iterable) {
+//   let next = iterable.next();
+//   while (!next.done && !predicate(next.value)) {
+//     next = iterable.next();
+//   }
+//   return predicate(next.value); //look into this one
+//   for (let val of iterable) {
+//     yield val;
+//   } 
+// }
+// anyIter.prototype = Object.create(sequence.prototype);
+
+function peekableIter(iterable) {
+  let _next = undefined;
+  return {
+    next: function() {
+      _next = iterable.next();
+      return _next;
+    },
+    peek: function() {
+      return _next
+        ? _next
+        : this.next();
+    } 
   }
-  yield next.value;
-  for (let val of iterable) {
-    yield val;
-  } 
 }
-anyIter.prototype = Object.create(sequence.prototype);
+peekableIter.prototype = Object.create(sequence.prototype);
 
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
@@ -260,5 +280,13 @@ sequence.prototype.partition = function(predicate) {
   }
   return part;
 }
+
+sequence.prototype.any = function(predicate) {
+  let next = this.next();
+  while (!next.done && !predicate(next.value)) {
+    next = this.next();
+  }
+  return predicate(next.value); //look into this one
+} 
 
 module.exports = Seq;
