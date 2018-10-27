@@ -146,7 +146,7 @@ test("test nth: return the nth element from the sequence", () => {
   expect(seq.next().value).toBe(undefined);
 });
 
-test("test peekable:", () => {
+test("test peekable: allows access to the next value in the sequence without consuming it", () => {
   let seq = Seq.of(arr).peekable();
 
   expect(seq.peek().value).toBe(1);
@@ -156,6 +156,20 @@ test("test peekable:", () => {
   expect(seq.next().value).toBe(2);
   expect(seq.next().value).toBe(3);
   expect(seq.next().value).toBe(undefined);
+
+  let secondSeq = Seq.of(bigArr).peekable();
+
+  expect(secondSeq.next().value).toBe(1);
+  expect(secondSeq.peek().value).toBe(2);
+
+  let next = 2;
+  for (let val of secondSeq) {
+    expect(val).toBe(next);
+    next += 1;
+  }
+
+  // let testPeek = Seq.of(arr).peekable().max();
+  // expect(testPeek).toBe(3);
 });
 
 test("test partition: consumes the sequence creating two lists. one with values that satisfy the predicate and one with values that do not", () => {
@@ -165,7 +179,7 @@ test("test partition: consumes the sequence creating two lists. one with values 
   expect(part[1]).toEqual([1, 3, 5]);
 });
 
-test("test any: tests whether any values match the predicate. Short circuits on match leaving the rest unconsumed", () => {
+test("test any: tests whether any values match the predicate, returns true if so, false if not. Short circuits on match leaving the rest unconsumed", () => {
   let seq = Seq.of(bigArr);
 
   expect(seq.any(x => x % 2 === 0)).toBe(true);
@@ -243,6 +257,7 @@ test("test prototype: check prototype chain of each method", () => {
       .map(x => [[x]])
       .flatten()
       .flatMap(x => x.concat(x))
+      // .peekable()
       .collect();
 
   expect(seq).toEqual([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
