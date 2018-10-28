@@ -234,7 +234,7 @@ test("test all:", () => {
 
 });
 
-test("test find:", () => {
+test("test find: finds a value that satisfies the given predicate and returns it. Does not consume the rest of the sequence", () => {
   let seq = Seq.of(arr)
   let val = seq.find(x => x === 2);
 
