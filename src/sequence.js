@@ -187,6 +187,11 @@ function* chainerator(seq, iterable) {
 }
 chainerator.prototype = Object.create(sequence.prototype);
 
+// function* cycleIter(iterable) {
+
+// }
+// cycleIter.prototype = Object.create(sequence.prototype);
+
 //not chainable at the moment
 // function peekableIter(iterable) {
 //   let _next = undefined;
@@ -341,6 +346,17 @@ sequence.prototype.find = function(predicate) {
     next = this.next();
   }
   return next.value;
+}
+
+sequence.prototype.all = function(predicate) {
+  let next = this.next();
+  while (!next.done) {
+    if (!predicate(next.value)) {
+      return false
+    }
+    next = this.next();
+  }
+  return true;
 }
 
 module.exports = Seq;

@@ -226,12 +226,27 @@ test("test product: returns the product of all values in the sequence, consuming
   expect(product).toBe(6);
 });
 
-test("test cycle:", () => {
+// test("test cycle: repeats the sequence endlessly", () => {
+//   let seq = Seq.of(arr);
 
-});
+//   for (let i = 0; i < 8; i++) {
+//     seq.next();
+//   }
+//   expect(seq.next().value).toBe(3);
+// });
 
-test("test all:", () => {
+test("test all: tests if all values of the sequence matches the given predicate. Short circuits on false value", () => {
+  let seq1 = Seq.of(arr);
+  let result1 = seq1.all(x => x < 10);
 
+  expect(result1).toBe(true);
+  expect(seq1.next().value).toBe(undefined);
+
+  let seq2 = Seq.of(arr);
+  let result2 = seq2.all(x => x < 2);
+
+  expect(result2).toBe(false);
+  expect(seq2.next().value).toBe(3);
 });
 
 test("test find: finds a value that satisfies the given predicate and returns it. Does not consume the rest of the sequence", () => {
