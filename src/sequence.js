@@ -66,9 +66,9 @@ sequence.prototype.any = function(predicate) {
   return anyIter(predicate, this);
 }
 
-sequence.prototype.peekable = function() {
-  return peekableIter(this);
-}
+// sequence.prototype.peekable = function() {
+//   return peekableIter(this);
+// }
 
 //*******************Iterators************************* */
 function* mapIter(fn, iterable) {
@@ -187,40 +187,41 @@ function* chainerator(seq, iterable) {
 }
 chainerator.prototype = Object.create(sequence.prototype);
 
-function peekableIter(iterable) {
-  let _next = undefined;
-  let _nextCount = 0;
-  let _peekCount = 0;
-  return {
-    next() {
-      if (_nextCount < _peekCount) {
-        _nextCount += 1;
-        //assertEqual(_nextCount, _peekCount); shoudl be true at this point
-      } else {
-        _next = iterable.next();
-        _nextCount += 1;
-        _peekCount += 1;
-      }
-      return _next;
-    },
-    peek() {
-      if (_nextCount === _peekCount) {
-        _peekCount += 1;
-        _next = iterable.next();
-      }
-      return _next;
-    },
-    *[Symbol.iterator]() {
-      if (_nextCount !== _peekCount) {
-        _nextCount += 1;
-        //assertEqual(_nextCount, _peekCount); should be true at this point
-        yield _next.value;
-      }
-      yield* iterable;
-    } 
-  }
-}
-peekableIter.prototype = Object.create(sequence.prototype);
+//not chainable at the moment
+// function peekableIter(iterable) {
+//   let _next = undefined;
+//   let _nextCount = 0;
+//   let _peekCount = 0;
+//   return {
+//     next() {
+//       if (_nextCount < _peekCount) {
+//         _nextCount += 1;
+//         //assertEqual(_nextCount, _peekCount); shoudl be true at this point
+//       } else {
+//         _next = iterable.next();
+//         _nextCount += 1;
+//         _peekCount += 1;
+//       }
+//       return _next;
+//     },
+//     peek() {
+//       if (_nextCount === _peekCount) {
+//         _peekCount += 1;
+//         _next = iterable.next();
+//       }
+//       return _next;
+//     },
+//     *[Symbol.iterator]() {
+//       if (_nextCount !== _peekCount) {
+//         _nextCount += 1;
+//         //assertEqual(_nextCount, _peekCount); should be true at this point
+//         yield _next.value;
+//       }
+//       yield* iterable;
+//     } 
+//   }
+// }
+// peekableIter.prototype = Object.create(sequence.prototype);
 
 //cant make these lambdas because it doesn't bind this? "this" would be the window?
 //***********Terminal Operations****************************************** */
@@ -294,6 +295,26 @@ sequence.prototype.any = function(predicate) {
     next = this.next();
   }
   return predicate(next.value); //look into this one
-} 
+}
+
+sequence.prototype.minByKey = function(fn) {
+  let currMin = this.next().value;
+  for (let val of this) {
+    if (fn(currMin) > fn(val)) {
+      currMIn = val;
+    }
+  }
+  return currMIn;
+}
+
+sequence.prototype.maxByKey = function(fn) {
+  let currMax = this.next().value;
+  for (let val of this) {
+    if (fn(currMax) < fn(val)) {
+      currMax = val;
+    }
+  }
+  return currMax;
+}
 
 module.exports = Seq;
