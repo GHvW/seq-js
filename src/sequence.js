@@ -335,4 +335,12 @@ sequence.prototype.product = function() {
   return acc;
 }
 
+sequence.prototype.find = function(predicate) {
+  let next = this.next();
+  if (!next.done && !predicate(next.value)) {
+    next = this.next();
+  }
+  return next.value;
+}
+
 module.exports = Seq;

@@ -235,7 +235,12 @@ test("test all:", () => {
 });
 
 test("test find:", () => {
-  
+  let seq = Seq.of(arr)
+  let val = seq.find(x => x === 2);
+
+  expect(val).toBe(2);
+  expect(seq.next().value).toBe(3);
+  expect(seq.next().value).toBe(undefined);
 });
 
 test("test position:", () => {
