@@ -214,12 +214,16 @@ test("test maxByKey: returns the element that gives the max value from the funct
   expect(max).toBe(1);
 });
 
-test("test sum:", () => {
+test("test sum: returns the sum of all values in the sequence, consuming the sequence", () => {
+  let sum = Seq.of(arr).sum();
 
+  expect(sum).toBe(6);
 });
 
-test("test product:", () => {
-  
+test("test product: returns the product of all values in the sequence, consuming the sequence", () => {
+  let product = Seq.of(arr).product();
+
+  expect(product).toBe(6);
 });
 
 test("test cycle:", () => {

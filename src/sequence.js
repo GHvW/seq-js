@@ -317,4 +317,22 @@ sequence.prototype.maxByKey = function(fn) {
   return currMax;
 }
 
+//rework to work with other types?
+sequence.prototype.sum = function() {
+  let acc = 0;
+  for (let val of this) {
+    acc += val;
+  }
+  return acc;
+}
+
+//rework to work with other types?
+sequence.prototype.product = function() {
+  let acc = 1;
+  for(let val of this) {
+    acc *= val;
+  }
+  return acc;
+}
+
 module.exports = Seq;
