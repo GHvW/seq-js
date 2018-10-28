@@ -359,4 +359,14 @@ sequence.prototype.all = function(predicate) {
   return true;
 }
 
+sequence.prototype.position = function(predicate) {
+  let count = 0;
+  for (let val of this) {
+    if (predicate(val)) {
+      return count;
+    }
+    count += 1;
+  }
+}
+
 module.exports = Seq;

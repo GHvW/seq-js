@@ -198,9 +198,9 @@ test("test max: returns the max value of the sequence, consuming the sequence", 
   expect(max).toBe(3);
 });
 
-test("test unzip:", () => {
+// test("test unzip:", () => {
 
-});
+// });
 
 test("test minByKey: returns the element that gives the min value from the function", () => {
   let min = Seq.of(bigArr).minByKey(x => x * -x);
@@ -259,7 +259,9 @@ test("test find: finds a value that satisfies the given predicate and returns it
 });
 
 test("test position:", () => {
+  let index = Seq.of(arr).position(x => x === 2);
 
+  expect(index).toBe(1);
 });
 
 test("test chain:", () => {
